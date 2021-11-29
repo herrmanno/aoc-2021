@@ -1,0 +1,62 @@
+name:                AoC2021
+version:             0.1.0.0
+github:              "herrmanno/AoC2021"
+license:             BSD3
+author:              "Oliver Herrmann"
+maintainer:          "o.herrmann92@gmail.com"
+copyright:           "Oliver Herrmann 2021"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/herrmanno/AoC2021#readme>
+
+dependencies:
+- base
+- text
+- split
+- containers
+
+default-extensions:
+- FlexibleContexts
+- NamedFieldPuns
+- MultiParamTypeClasses
+- OverloadedStrings
+- RankNTypes
+- TypeApplications
+
+library:
+  source-dirs: src
+
+executables:
+  AoC2021-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wunused-imports
+    - -O2
+    dependencies:
+    - AoC2021
+
+tests:
+  AoC2021-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wunused-imports
+    dependencies:
+    - AoC2021
+    - hspec
