@@ -3,10 +3,13 @@ module Day1Spec (spec) where
 import Test.Hspec
 import Day1 (part1, part2)
 
+spec :: SpecWith ()
 spec = do
-    xdescribe "day 1" $ do
-        it "should solve part 1" $
-            part1 "" `shouldBe` "1"
+    describe "day 1" $ do
+        it "should solve part 1" $ do
+            input <- readFile "input/1.txt"
+            part1 input `shouldBe` "1121"
 
-        it "should solve part 2" $
-            part2 "" `shouldBe` "1"
+        it "should solve part 2" $ do
+            input <- readFile "input/1.txt"
+            part2 input `shouldBe` "1065"
