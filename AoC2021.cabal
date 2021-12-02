@@ -96,6 +96,7 @@ test-suite AoC2021-test
   main-is: Spec.hs
   other-modules:
       Day1Spec
+      Day2Spec
       Paths_AoC2021
   hs-source-dirs:
       test
