@@ -5,7 +5,7 @@ import Day2 (part1, part2)
 
 spec :: SpecWith ()
 spec = do
-    describe "day 1" $ do
+    describe "day 2" $ do
         it "should solve part 1" $ do
             input <- readFile "input/2.txt"
             part1 input `shouldBe` "1938402"
