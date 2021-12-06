@@ -103,6 +103,7 @@ test-suite AoC2021-test
       Day3Spec
       Day4Spec
       Day5Spec
+      Day6Spec
       Paths_AoC2021
   hs-source-dirs:
       test
