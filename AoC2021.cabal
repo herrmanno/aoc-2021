@@ -115,7 +115,7 @@ test-suite AoC2021-test
       RankNTypes
       TypeApplications
       ViewPatterns
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wunused-imports
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wunused-imports -O2
   build-depends:
       AoC2021
     , base

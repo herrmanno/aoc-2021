@@ -14,9 +14,9 @@ solve d = sum . map ((+1) . childrenAfterDay d) . parseInput
         childrenAfterDay d f = let birthDay = d + 8 - f in childrenAfterDaysToLive birthDay
 
 {-| calculates the summed up number of children a fish gives birth to, if he lives `d` days
-    after *after his birth*
+    *after his birth*
 -}
-childrenAfterDaysToLive d = memo !! d
+childrenAfterDaysToLive = (memo !!)
     where
         -- fish don't give birth in their first 8 days
         memo = replicate 8 0 ++ map f [8..]

@@ -58,7 +58,4 @@ puzzles =
         ]
 
 getPuzzle :: Int -> Maybe (Puzzle, Puzzle)
-getPuzzle i
-    | i < 1 = Nothing
-    | i > length puzzles = Nothing
-    | otherwise = Just $ puzzles !! (i - 1)
+getPuzzle = flip lookup (zip [1..] puzzles)

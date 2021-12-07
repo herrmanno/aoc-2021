@@ -58,6 +58,7 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     - -Wunused-imports
+    - -O2
     dependencies:
     - AoC2021
     - hspec
