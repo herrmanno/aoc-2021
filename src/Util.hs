@@ -3,6 +3,9 @@ import Data.Char (digitToInt)
 import Data.List (foldl1')
 import qualified Data.Map as M
 
+toTuple [a,b] = (a,b)
+toTuple xs = error $ "cannot turn list w/ '" <> show (length xs) <> "' into tuple"
+
 
 readBinary' :: [Char] -> Int
 readBinary' = binaryToDecimal' . fmap digitToInt
@@ -28,3 +31,6 @@ range a b
 -- the sum of 1..n
 sumN :: Integral a => a -> a
 sumN n = (n * (n + 1)) `div` 2
+
+count :: (a -> Bool) -> [a] -> Int
+count p = length . filter p
