@@ -3,71 +3,33 @@ module Day8 where
 import Puzzle ( Puzzle )
 import Data.List.Split (splitOn)
 import Util (toTuple, count)
-import qualified Data.Set as S
 import qualified Data.Map as M
-import Data.Foldable (find)
-import Data.List (group, sort)
-import Data.Tuple (swap)
-import Data.Bifunctor (Bifunctor(bimap))
 
 part1 :: Puzzle
-part1 = show . count ((`S.member` uniques) . length) . concatMap snd . parseInput
-    where uniques = S.fromList [2,4,3,7]
+part1 = show . count (`elem` ['1','4','7','8']) . concatMap (show . solve) . parseInput
 
 part2 :: Puzzle
-part2 = show . sum. map solve . parseInput
+part2 = show . sum . map solve . parseInput
 
-type Input = ([String], [String])
-type Display = M.Map Char (S.Set Char)
+type Input = ([String], [String]) -- ^ list of words left/rught of '|' char in input line
 
 solve :: Input -> Int
-solve (xs,ys) =
-    -- first, deduce common pattern from unique* numbers (by their count of display segments used)
-    let d1 = let Just c1 = find ((==2) . length) xs in foldr (M.adjust (S.intersection (S.fromList c1))) display ("cf"::String)
-        d4 = let Just c4 = find ((==4) . length) xs in foldr (M.adjust (S.intersection (S.fromList c4))) d1 ("bcdf"::String)
-        d7 = let Just c7 = find ((==3) . length) xs in foldr (M.adjust (S.intersection (S.fromList c7))) d4 ("acf"::String)
-        d8 = let Just c8 = find ((==7) . length) xs in foldr (M.adjust (S.intersection (S.fromList c8))) d7 ("abcdefg"::String)
-    -- then run further deductions and reverse the resulting map
-        d' = reverseMap $ foldl (\m f -> f m) d8 deductions
-        nums = map (getNum d') ys
-    in foldl1 (\acc a -> 10 * acc + a) nums
+solve (xs,ys) = foldl1 (\acc a -> 10 * acc + a) nums
     where
-        display = M.fromList (zip "abcdefg" (repeat (S.fromList "abcdefg")))
-        deductions =
-            [ \m -> M.adjust (S.\\ (m M.! 'c')) 'a' m                           -- 'a' is '7' \\ '1'
-            , \m -> foldr (M.adjust (S.\\ (m M.! 'a'))) m ("bcdefg"::String)    -- 'a' can not be part of any other number (except a)
-            , \m -> foldr (M.adjust (S.\\ (m M.! 'c'))) m ("abdeg"::String)     -- 'c' can not be part of any other number (except c and f)
-            , \m -> foldr (M.adjust (S.\\ (m M.! 'b'))) m ("eg"::String)        -- 'b' can not be part of e or g
-            -- to this point there are three tuples left, each sharing to wires: (c,f), (b,d), (e,g)
-            , M.adjust (S.intersection count9) 'f'                              -- 'f' occurs in 9 different digits
-            , M.adjust (S.intersection count8) 'c'                              -- 'c' occurs in 8 different digits
-            , M.adjust (S.intersection count7) 'd'                              -- 'd' occurs in 7 different digits
-            , M.adjust (S.intersection count6) 'b'                              -- 'b' occurs in 6 different digits
-            , M.adjust (S.intersection count4) 'e'                              -- 'd' occurs in 7 different digits
-            , M.adjust (S.intersection count7) 'g'                              -- 'b' occurs in 6 different digits
-            ]
-        count9 = S.fromList . map head . filter ((==9) . length) . group . sort . concat $ xs
-        count8 = S.fromList . map head . filter ((==8) . length) . group . sort . concat $ xs
-        count7 = S.fromList . map head . filter ((==7) . length) . group . sort . concat $ xs
-        count6 = S.fromList . map head . filter ((==6) . length) . group . sort . concat $ xs
-        count4 = S.fromList . map head . filter ((==4) . length) . group . sort . concat $ xs
-        reverseMap = M.fromList . map (bimap S.findMin S.singleton . swap) . M.toList
-        getNum display n = getNumberFromWires $ S.unions (map (display M.!) n)
-
-getNumberFromWires :: Num p => S.Set Char -> p
-getNumberFromWires s
-    | s == S.fromList "abcefg"    = 0
-    | s == S.fromList "cf"        = 1
-    | s == S.fromList "acdeg"     = 2
-    | s == S.fromList "acdfg"     = 3
-    | s == S.fromList "bcdf"      = 4
-    | s == S.fromList "abdfg"     = 5
-    | s == S.fromList "abdefg"    = 6
-    | s == S.fromList "acf"       = 7
-    | s == S.fromList "abcdefg"   = 8
-    | s == S.fromList "abcdfg"    = 9
-    | otherwise                   = error $ "Bad input wire set: " <> show s
-
+        nums = map (lookupNumber . sum . map (counts M.!)) ys
+        -- wire usages over all 10 digits: a: 8, b: 6, c: 8, d: 7, e: 4, f: 9, g: 7
+        counts = M.fromListWith (+) (zip (concat xs) (repeat 1))
+        lookupNumber 17 = 1 -- c(8) + f(8)
+        lookupNumber 30 = 4 -- b(6) + c(8) + d(7) + f(9)
+        lookupNumber 25 = 7 -- a(8) + c(8) + f(9)
+        lookupNumber 49 = 8 -- a(8) + b(6) + c(8) + d(7) + e(4) + f(9) + g(7)
+        lookupNumber 42 = 0 -- a(8) + b(6) + c(8) + e(4) + f(9) + g(7)
+        lookupNumber 41 = 6 -- a(8) + b(6) + d(7) + e(4) + f(9) + g(7)
+        lookupNumber 45 = 9 -- a(8) + b(6) + c(8) + d(7) + f(9) + g(7)
+        lookupNumber 34 = 2 -- a(8) + c(8) + d(7) + e(4) + g(7)
+        lookupNumber 39 = 3 -- a(8) + c(8) + d(7) + f(9) + g(7)
+        lookupNumber 37 = 5 -- a(8) + b(6) + d(7) + f(9) + g(7)
+        lookupNumber n = error $ "Bad digit sum: " <> show n
 
 parseInput :: String -> [Input]
 parseInput = fmap (toTuple . fmap words . splitOn "|") . lines
