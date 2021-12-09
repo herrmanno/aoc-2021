@@ -51,6 +51,7 @@ library
       Day9
       Puzzle
       Util
+      Util.Map2d
   other-modules:
       Paths_AoC2021
   hs-source-dirs:
