@@ -19,7 +19,7 @@ solve (xs,ys) = foldl1 (\acc a -> 10 * acc + a) nums
         nums = map (lookupNumber . sum . map (counts M.!)) ys
         -- wire usages over all 10 digits: a: 8, b: 6, c: 8, d: 7, e: 4, f: 9, g: 7
         counts = M.fromListWith (+) (zip (concat xs) (repeat 1))
-        lookupNumber 17 = 1 -- c(8) + f(8)
+        lookupNumber 17 = 1 -- c(8) + f(9)
         lookupNumber 30 = 4 -- b(6) + c(8) + d(7) + f(9)
         lookupNumber 25 = 7 -- a(8) + c(8) + f(9)
         lookupNumber 49 = 8 -- a(8) + b(6) + c(8) + d(7) + e(4) + f(9) + g(7)
