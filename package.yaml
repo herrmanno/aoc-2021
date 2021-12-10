@@ -28,7 +28,6 @@ default-extensions:
 - FlexibleContexts
 - NamedFieldPuns
 - MultiParamTypeClasses
-- OverloadedStrings
 - RankNTypes
 - TypeApplications
 - ViewPatterns

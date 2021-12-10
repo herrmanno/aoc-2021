@@ -60,7 +60,6 @@ library
       FlexibleContexts
       NamedFieldPuns
       MultiParamTypeClasses
-      OverloadedStrings
       RankNTypes
       TypeApplications
       ViewPatterns
@@ -82,7 +81,6 @@ executable AoC2021-exe
       FlexibleContexts
       NamedFieldPuns
       MultiParamTypeClasses
-      OverloadedStrings
       RankNTypes
       TypeApplications
       ViewPatterns
@@ -99,6 +97,7 @@ test-suite AoC2021-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Day10Spec
       Day1Spec
       Day2Spec
       Day3Spec
@@ -115,7 +114,6 @@ test-suite AoC2021-test
       FlexibleContexts
       NamedFieldPuns
       MultiParamTypeClasses
-      OverloadedStrings
       RankNTypes
       TypeApplications
       ViewPatterns
