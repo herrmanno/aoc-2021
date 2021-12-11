@@ -9,15 +9,15 @@ import Data.Ord (comparing)
 import Util (mmap)
 import qualified Data.Set as S
 
-part1 :: Puzzle
-part1 s = show $ snd winningScore
+part1 :: Puzzle Int
+part1 s = snd winningScore
     where
         (nums, boards) = parseInput s
         scores = mapMaybe (winAfter nums) boards
         winningScore = minimumBy (comparing fst) scores
 
-part2 :: Puzzle
-part2 s = show $ snd losingScore
+part2 :: Puzzle Int
+part2 s = snd losingScore
     where
         (nums, boards) = parseInput s
         scores = mapMaybe (winAfter nums) boards

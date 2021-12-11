@@ -9,11 +9,11 @@ import Data.Char (digitToInt)
 import Data.List (sortOn)
 import Data.Ord (Down(Down))
 
-part1 :: Puzzle
-part1 = show . solve1 . parseInput
+part1 :: Puzzle Int
+part1 = solve1 . parseInput
 
-part2 :: Puzzle
-part2 = show . solve2 . parseInput
+part2 :: Puzzle Int
+part2 = solve2 . parseInput
 
 solve1 :: Map2d Int -> Int
 solve1 m = (\xs -> sum xs + length xs) . fmap (m M.!) . lowPoints $ m

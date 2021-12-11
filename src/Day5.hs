@@ -6,11 +6,11 @@ import qualified Data.Map as M
 import Control.Arrow ((***))
 import Util (upsert, range)
 
-part1 :: Puzzle
-part1 = show . solve (filter (not . isDiagonal))
+part1 :: Puzzle Int
+part1 = solve (filter (not . isDiagonal))
 
-part2 :: Puzzle
-part2 = show . solve id
+part2 :: Puzzle Int
+part2 = solve id
 
 solve :: ([Line] -> [Line]) -> String -> Int
 solve f = length

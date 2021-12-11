@@ -7,16 +7,16 @@ import Data.Char (digitToInt)
 import Util (readBinary', binaryToDecimal')
 import Control.Applicative ((<|>))
 
-part1 :: Puzzle
-part1 s = show ((*) <$> gammaRate <*> epsilonRate)
+part1 :: Puzzle (Maybe Int)
+part1 s = (*) <$> gammaRate <*> epsilonRate
     where
         nums =fmap digitToInt <$> lines s
         numLen = length (head (lines s))
         gammaRate = binaryToDecimal' <$> mapM (bitsInPosition nums) [0..numLen - 1]
         epsilonRate = B.xor <$> gammaRate <*> pure (2^numLen - 1)
 
-part2 :: Puzzle
-part2 s = show (oRating * co2Rating)
+part2 :: Puzzle Int
+part2 s = oRating * co2Rating
     where
         nums = fmap digitToInt <$> lines s
         oRating = filterByBitRating id nums 1

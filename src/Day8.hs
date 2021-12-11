@@ -5,11 +5,11 @@ import Data.List.Split (splitOn)
 import Util (toTuple, count)
 import qualified Data.Map as M
 
-part1 :: Puzzle
-part1 = show . count (`elem` ['1','4','7','8']) . concatMap (show . solve) . parseInput
+part1 :: Puzzle Int
+part1 = count (`elem` ['1','4','7','8']) . concatMap (show . solve) . parseInput
 
-part2 :: Puzzle
-part2 = show . sum . map solve . parseInput
+part2 :: Puzzle Int
+part2 = sum . map solve . parseInput
 
 type Input = ([String], [String]) -- ^ list of words left/rught of '|' char in input line
 

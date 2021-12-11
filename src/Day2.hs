@@ -8,17 +8,17 @@ data Dir = Forward Integer | Down Integer | Up Integer deriving Read
 capitalise [] = []
 capitalise (x:xs) = toUpper x : map toLower xs
 
-solve :: Show a => (b -> Dir -> b) -> b -> (b -> a) -> String -> String
-solve f acc finish = show . finish . foldl f acc . fmap (read . capitalise) . lines
+solve :: (b -> Dir -> b) -> b -> (b -> a) -> String -> a
+solve f acc finish = finish . foldl f acc . fmap (read . capitalise) . lines
 
-part1 :: Puzzle
+part1 :: Puzzle Integer
 part1 = solve f (0,0) (uncurry (*))
     where
         f (h,d) (Forward n) = (h + n, d)
         f (h,d) (Down n) = (h, d + n)
         f (h,d) (Up n) = (h, d - n)
 
-part2 :: Puzzle
+part2 :: Puzzle Integer
 part2 = solve f (0,0,0) sumUp
     where
         sumUp (h,d,a) = h * d

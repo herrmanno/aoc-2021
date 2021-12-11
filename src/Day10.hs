@@ -4,8 +4,8 @@ import Puzzle ( Puzzle )
 import Data.Maybe (mapMaybe)
 import Data.List (sort)
 
-part1 :: Puzzle
-part1 = show . sum . fmap (sumCorrupts . parseCommandLine) . lines
+part1 :: Puzzle Int
+part1 = sum . fmap (sumCorrupts . parseCommandLine) . lines
     where
         sumCorrupts Ok = 0
         sumCorrupts (Incomplete _) = 0
@@ -15,8 +15,8 @@ part1 = show . sum . fmap (sumCorrupts . parseCommandLine) . lines
         sumCorrupts (Corrupt '>') = 25137
         sumCorrupts (Corrupt c) = error $ "Bad char in Corrupt :" <> show c
 
-part2 :: Puzzle
-part2 = show . middle . sort . mapMaybe (sumIncomplete . parseCommandLine) . lines
+part2 :: Puzzle Int
+part2 = middle . sort . mapMaybe (sumIncomplete . parseCommandLine) . lines
     where
         middle xs = let i = (length xs - 1) `div` 2 in xs !! i
         sumIncomplete Ok = Nothing

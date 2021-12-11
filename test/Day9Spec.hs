@@ -8,8 +8,8 @@ spec = do
     describe "day 9" $ do
         it "should solve part 1" $ do
             input <- readFile "input/9.txt"
-            part1 input `shouldBe` "502"
+            part1 input `shouldBe` 502
 
         it "should solve part 2" $ do
             input <- readFile "input/9.txt"
-            part2 input `shouldBe` "1330560"
+            part2 input `shouldBe` 1330560

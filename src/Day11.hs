@@ -10,11 +10,11 @@ import Control.Arrow (Arrow(first))
 import Data.Foldable (find)
 import Data.Maybe (fromJust)
 
-part1 :: Puzzle
-part1 = show . snd . (!!100) . iterate increaseEnergy . parseInput
+part1 :: Puzzle Int
+part1 = snd . (!!100) . iterate increaseEnergy . parseInput
 
-part2 :: Puzzle
-part2 = show . fst . findAllFlashing . zip [0..] . iterate increaseEnergy . parseInput
+part2 :: Puzzle Int
+part2 = fst . findAllFlashing . zip [0..] . iterate increaseEnergy . parseInput
     where findAllFlashing = fromJust . find ((==0) . sum . fst . snd)
 
 increaseEnergy :: (Map2d Int, Int) -> (Map2d Int, Int)

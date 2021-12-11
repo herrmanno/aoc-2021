@@ -2,8 +2,8 @@ module Day23 where
 
 import Puzzle ( Puzzle )
 
-part1 :: Puzzle
+part1 :: Puzzle Int
 part1 = undefined
 
-part2 :: Puzzle
+part2 :: Puzzle Int
 part2 = undefined

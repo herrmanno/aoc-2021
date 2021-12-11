@@ -3,11 +3,11 @@ module Day6 where
 import Puzzle ( Puzzle )
 import Data.List.Split (splitOn)
 
-part1 :: Puzzle
-part1 = show . solve 80
+part1 :: Puzzle Integer
+part1 = solve 80
 
-part2 :: Puzzle
-part2 = show . solve 256
+part2 :: Puzzle Integer
+part2 = solve 256
 
 solve d = sum . map ((+1) . childrenAfterDay d) . parseInput
     where
