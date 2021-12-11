@@ -2,9 +2,12 @@
 module Util.Map2d where
 
 import Prelude hiding (lookup)
-import Data.Map (Map, fromList, (!), lookup)
+import Data.Map (Map, fromList, (!), lookup, keys, toList)
 import qualified Data.Set as S
 import Data.Maybe (mapMaybe)
+import Control.Arrow ((&&&))
+import Data.Foldable (maximumBy)
+import Data.Ord (comparing)
 
 
 type Coord2d = (Int, Int)
@@ -15,9 +18,21 @@ type Map2d a = Map Coord2d a
 to2dMap :: [[a]] -> Map2d a
 to2dMap ass = fromList [((y,x), a) | (y,as) <- zip [0..] ass, (x,a) <- zip [0..] as]
 
+-- | Turn a Map2d a into its [[a]] representation
+from2dMap :: Map2d a -> [[a]]
+from2dMap m = [ [m ! (y,x) | x <- [xmin..xmax]] | y <- [ymin..ymax]]
+    where
+        ks = keys m
+        (xmin,xmax) = (minimum &&& maximum) (fmap fst ks)
+        (ymin,ymax) = (minimum &&& maximum) (fmap snd ks)
+
 -- | Get four (up, down, left, right) neighbours of a coordinate
 neighbourCoords4 :: Coord2d -> [Coord2d]
 neighbourCoords4 (x,y) = [(x+1,y), (x-1,y), (x,y+1), (x,y-1)]
+
+-- | Get all eight adjacent coords of a Coord2d
+neighbourCoords8 :: Coord2d -> [Coord2d]
+neighbourCoords8 (x,y) = [(x+dx,y+dy) | dx <- [-1,0,1], dy <- [-1,0,1], dx /= 0 || dy /= 0]
 
 -- | Get four neighbours (coord and values) from a coord and a given 2dMap
 -- | non-existing neighbours are ignored
@@ -41,3 +56,7 @@ neighboursSatisfying4 p m c = S.unions (s : rest)
                            rest = go (s `S.union` cs) c' <$> neighbours4 m (fst c')
                        in S.unions (s : rest)
             | otherwise = cs
+
+-- General map utilities
+findMaxValue :: Ord a => Map k a -> (k,a)
+findMaxValue m = maximumBy (comparing snd) (toList m)
