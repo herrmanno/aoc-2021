@@ -6,7 +6,7 @@ import Data.Map (Map, fromList, (!), lookup, keys, toList, findWithDefault)
 import qualified Data.Set as S
 import Data.Maybe (mapMaybe)
 import Control.Arrow ((&&&))
-import Data.Foldable (maximumBy)
+import Data.Foldable (maximumBy, minimumBy)
 import Data.Ord (comparing)
 
 
@@ -77,3 +77,7 @@ neighboursSatisfying4 p m c = S.unions (s : rest)
 -- General map utilities
 findMaxValue :: Ord a => Map k a -> (k,a)
 findMaxValue m = maximumBy (comparing snd) (toList m)
+
+-- General map utilities
+findMinValue :: Ord a => Map k a -> (k,a)
+findMinValue m = minimumBy (comparing snd) (toList m)
