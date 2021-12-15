@@ -51,6 +51,7 @@ library
       Day9
       Puzzle
       Util
+      Util.BFS
       Util.Counter
       Util.Map2d
   other-modules:
@@ -67,6 +68,7 @@ library
   build-depends:
       base
     , containers
+    , heap
     , split
     , text
   default-language: Haskell2010
@@ -90,6 +92,7 @@ executable AoC2021-exe
       AoC2021
     , base
     , containers
+    , heap
     , split
     , text
   default-language: Haskell2010
@@ -103,6 +106,7 @@ test-suite AoC2021-test
       Day12Spec
       Day13Spec
       Day14Spec
+      Day15Spec
       Day1Spec
       Day2Spec
       Day3Spec
@@ -127,6 +131,7 @@ test-suite AoC2021-test
       AoC2021
     , base
     , containers
+    , heap
     , hspec
     , split
     , text

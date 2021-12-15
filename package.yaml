@@ -23,6 +23,7 @@ dependencies:
 - text
 - split
 - containers
+- heap
 
 default-extensions:
 - FlexibleContexts

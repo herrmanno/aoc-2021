@@ -8,6 +8,7 @@ import Data.Maybe (mapMaybe)
 import Control.Arrow ((&&&))
 import Data.Foldable (maximumBy, minimumBy)
 import Data.Ord (comparing)
+import Data.Bifunctor (bimap)
 
 
 type Coord2d = (Int, Int)
@@ -33,6 +34,14 @@ from2dMapWithDefault a m = [ [ findWithDefault a (y,x) m | x <- [xmin..xmax]] | 
         (xmin,xmax) = (minimum &&& maximum) (fmap snd ks)
         (ymin,ymax) = (minimum &&& maximum) (fmap fst ks)
 
+-- | Returns the `(y,x)` size of this map (in regard to the bottom right corner of the map)
+size :: Map2d a -> (Int, Int)
+size = bimap succ succ . bottomRight
+
+-- | Returns the `(y,x)` coord of the bottom right corner
+bottomRight :: Map2d a -> Coord2d
+bottomRight m = let ks = keys m in (maximum (fmap fst ks), maximum (fmap snd ks))
+
 -- | Turn a Map2d into a pretty-printable representation
 pretty :: (Maybe a -> Char) -> Map2d a -> PrettyMap
 pretty f = PrettyMap . fmap (fmap f) . from2dMapWithDefault Nothing . fmap Just
@@ -52,7 +61,8 @@ neighbourCoords8 :: Coord2d -> [Coord2d]
 neighbourCoords8 (x,y) = [(x+dx,y+dy) | dx <- [-1,0,1], dy <- [-1,0,1], dx /= 0 || dy /= 0]
 
 -- | Get four neighbours (coord and values) from a coord and a given 2dMap
--- | non-existing neighbours are ignored
+--
+--   Non-existing neighbours are ignored.
 neighbours4 :: Map2d a -> Coord2d -> [Cell2d a]
 neighbours4 m c = mapMaybe (\k -> (k,) <$> (k `lookup` m)) (neighbourCoords4 c)
 
