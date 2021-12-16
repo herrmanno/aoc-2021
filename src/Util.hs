@@ -1,7 +1,8 @@
 module Util where
-import Data.Char (digitToInt)
+import Data.Char (digitToInt, ord)
 import Data.List (foldl1')
 import qualified Data.Map as M
+import Data.Bits as B
 
 
 --------------------
@@ -40,6 +41,15 @@ count p = length . filter p
 ------------------------------
 -- binary number conversion --
 ------------------------------
+
+readHex :: Char -> Int
+readHex c
+    | ord c >= 48 && ord c <= 57 = ord c - 48
+    | ord c >= 65 && ord c <= 70 = ord c - 55
+    | otherwise = error $ "Non hex-digit: " <> show c <> "(" <> show (ord c) <> ")"
+
+decimalToBinary :: Int -> Int -> [Int]
+decimalToBinary len i = fmap (fromEnum . B.testBit i) [len-1,len-2..0]
 
 readBinary' :: [Char] -> Int
 readBinary' = binaryToDecimal' . fmap digitToInt
