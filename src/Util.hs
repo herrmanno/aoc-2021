@@ -1,13 +1,17 @@
 module Util where
 import Data.Char (digitToInt, ord)
-import Data.List (foldl1')
+import Data.List (foldl1', unfoldr, tails)
 import qualified Data.Map as M
 import Data.Bits as B
+import Data.Maybe (listToMaybe)
 
 
 --------------------
 -- misc utilities --
 --------------------
+
+readAllNums :: (Read a, Num a) => String -> [a]
+readAllNums = unfoldr (listToMaybe . concatMap reads . tails)
 
 -- | convert a [a,a] to (a,a)
 --
