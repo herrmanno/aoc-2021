@@ -4,6 +4,8 @@ import Data.List (foldl1', unfoldr, tails)
 import qualified Data.Map as M
 import Data.Bits as B
 import Data.Maybe (listToMaybe)
+import Control.Monad ((<=<))
+import Data.Tuple (swap)
 
 
 --------------------
@@ -22,6 +24,15 @@ toTuple xs = error $ "cannot turn list w/ '" <> show (length xs) <> "' into tupl
 -- fmap inside a two level deep functor
 mmap :: (Functor f1, Functor f2) => (a -> b) -> f1 (f2 a) -> f1 (f2 b)
 mmap f = fmap (fmap f)
+
+allPairs :: [b] -> [(b, b)]
+allPairs xs = do
+    (n, a) <- zip [1..] xs
+    b <- drop n xs
+    return (a,b)
+
+allPairsWithSwapped :: [b] -> [(b, b)]
+allPairsWithSwapped = sequence [id, swap] <=< allPairs
 
 -- modify a map value if the key exists or insert a default value instead
 upsert :: Ord k => a -> (a -> a) -> k -> M.Map k a -> M.Map k a
