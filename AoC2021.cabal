@@ -112,6 +112,7 @@ test-suite AoC2021-test
       Day16Spec
       Day17Spec
       Day18Spec
+      Day19Spec
       Day1Spec
       Day2Spec
       Day3Spec
