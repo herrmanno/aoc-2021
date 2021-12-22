@@ -43,17 +43,16 @@ play' limit p1 p2 =
                     , s2 <- [0..limit]
                     , moveP1 <- [False,True]
                     ]
-        f (p1,s1,p2,s2,moveP1)
-            | s1 >= limit = (1,0)
-            | s2 >= limit = (0,1)
-            | otherwise =
-                let ss1' = turn (p1,s1)
-                    ss2' = turn (p2,s2)
-                    ss' = if moveP1
-                        then [ (n, (p1',min limit s1',p2,s2, moveP1 `xor` True)) | (n, (p1',s1')) <- ss1' ]
-                        else [ (n, (p1,s1,p2',min limit s2', moveP1 `xor` True)) | (n, (p2',s2')) <- ss2' ]
-                    results = fmap (\(n,s') -> bimap (*n) (*n) (memo M.! s')) ss'
-                in foldTuples results
+        f (p1,21,p2,s2,_) = (1,0)
+        f (p1,s1,p2,21,_) = (0,1)
+        f (p1,s1,p2,s2,moveP1) =
+            let ss1' = turn (p1,s1)
+                ss2' = turn (p2,s2)
+                ss' = if moveP1
+                    then [ (n, (p1',min limit s1',p2,s2, moveP1 `xor` True)) | (n, (p1',s1')) <- ss1' ]
+                    else [ (n, (p1,s1,p2',min limit s2', moveP1 `xor` True)) | (n, (p2',s2')) <- ss2' ]
+                results = fmap (\(n,s') -> bimap (*n) (*n) (memo M.! s')) ss'
+            in foldTuples results
         -- | returns all possible new (pos,score) pairs together with their count
         turn (p,s) = do
             (val,n') <- [(3,1), (4,3), (5,6), (6,7), (7,6), (8,3), (9,1)]
