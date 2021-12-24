@@ -91,3 +91,6 @@ findMaxValue m = maximumBy (comparing snd) (toList m)
 -- General map utilities
 findMinValue :: Ord a => Map k a -> (k,a)
 findMinValue m = minimumBy (comparing snd) (toList m)
+
+distance :: Coord2d -> Coord2d -> Int
+distance (y,x) (y',x') = abs (y - y') + abs (x - x')
