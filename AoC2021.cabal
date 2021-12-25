@@ -119,6 +119,7 @@ test-suite AoC2021-test
       Day22Spec
       Day23Spec
       Day24Spec
+      Day25Spec
       Day2Spec
       Day3Spec
       Day4Spec
